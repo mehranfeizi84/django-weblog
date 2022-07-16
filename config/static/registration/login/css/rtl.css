@@ -1,0 +1,27 @@
+@font-face {
+    font-family: 'koskhol';
+    src: url('../fonts/koskhol.woff');
+    font-style: normal;
+}
+
+body {
+    direction: rtl !important;
+    text-align: right !important;
+    font-family: koskhol !important;
+}
+
+.btn-show-pass {
+    right: initial;
+    left: 0;
+}
+
+.myfont, .focus-input100::after {
+    font-family: koskhol !important;
+}
+
+
+.errors {
+    color: red;
+    background-color: rgb(0, 0, 0);
+    padding: 20px 30px;
+}

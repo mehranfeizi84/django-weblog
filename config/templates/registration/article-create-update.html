@@ -1,0 +1,75 @@
+{% extends 'registration/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block btitle %}{% block title %}
+    افزودن مقاله
+{% endblock %}{% endblock %}
+
+{% block main %}
+<div class="col-md-12">
+    <div class="card card-primary">
+      <div class="card-header">
+        {% if user.is_superuser %}
+            <h3 class="card-title mb-0 float-left">افزودن مقاله</h3>
+        {% else %}
+            <h3 class="card-title mb-0 float-left">افزودن مقاله</h3>
+        {% endif %}
+    </div>
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data">{% csrf_token %}
+            <div class="form-row">
+                <div class="form-group col-md-6 mb-0">
+                  {{ form.title|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-6 mb-0">
+                  {{ form.slug|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-12 mb-0">
+                    {{ form.description|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-6 mb-0">
+                    {{ form.category|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-6 mb-0">
+                    {{ form.thumbnail|as_crispy_field }}
+                </div>
+                <div class="col-md-6 mb-0">
+                    {{ form.publish|as_crispy_field }}
+                </div>
+                {% if user.is_superuser %}
+                    <div class="form-group col-md-6 mb-0">
+                        {{ form.author|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-6 mb-0">
+                        {{ form.status|as_crispy_field }}
+                    </div>
+                {% else %}
+                    <div class="form-group col-md-6 mb-0">
+                        <div id="div_id_status" class="form-group">
+                        <label for="id_status" class=" requiredField">
+                        وضعیت<span class="asteriskField">*</span>
+                        </label>
+                        <div>
+                            <select name="status" class="select form-control" required="" id="id_status">
+                                <option value="">---------</option>
+                                <option value="d">پیش نویس</option>
+                                <option value="i">ارسال برای ادمین</option>
+                            </select>
+                        </div>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="col-md-6">
+                    {{ form.is_special|as_crispy_field }}
+                </div>
+            </div>
+            <button class="btn btn-primary">ارسال مقاله</button>
+            {% if request.resolver_match.kwargs.pk %}
+                <button class="btn btn-danger">
+                    <a href="{% url 'account:delete-article' request.resolver_match.kwargs.pk %}">حذف</a>
+                </button>
+            {% endif %}
+        </form>
+    </div>
+</div>
+{% endblock %}

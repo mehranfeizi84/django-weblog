@@ -1,0 +1,67 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block main %}
+<header class="masthead" style="background-image: url('{% static '/blog/assets/img/home-bg.jpg' %}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>ویجی تک</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            {% block header %}{% endblock %}
+            {% for article in articles %}
+                <div class="post-preview">
+                    <a href="{% url 'blog:detail' article.slug %}">
+                        <h2 class="post-title" style="font-size: 30px;">
+                            {{article.title}}
+                            {% if article.is_special %}
+                                <span class="badge badge-danger" style="font-size: 12px; background-color: red;">ویژه</span>
+                            {% endif %}
+                        </h2>
+                        <h3 class="post-subtitle" style="font-size: 18px;">
+                            {{ article.description|striptags|truncatewords:30 }}
+                        </h3>
+                    </a>
+                    <p class="post-meta">
+                        <a href="{% url 'blog:author' article.author.username %}" style="font-size: 12px;">نوشته شده توسط : {{article.author.get_full_name}}</a>
+                        <h6 style="font-size: 12px;">تاریخ انتشار : {{article.jpublish}}</h6>
+                        {% for category in article.category.actived %}
+                            <h6 style="font-size: 12px;"><a href="{% url 'blog:category' category.slug %}">#{{category.title}}</a>
+                            </h6>
+                        {% endfor %}
+                    </p>
+                    <hr>
+                </div>
+            {% endfor %}
+            <!-- Divider-->
+            <hr class="my-4" />
+            <!-- Pager-->
+            <div class="clearfix pager-botton">
+                {% if is_paginated %}
+                <div class="clearfix pager-botton">
+                    {% if page_obj.has_next %}
+                    <div class="d-flex justify-content-end float-right mb-4"><a class="btn btn-primary text-uppercase"
+                            href="{% block next_page_url %}{% endblock %}">پست های قبلی &larr;</a></div>
+                    {% endif %}
+
+                    {% if page_obj.has_previous %}
+                    <div class="d-flex justify-content-end float-right mb-4"><a class="btn btn-primary text-uppercase"
+                            href="{% block previous_page_url %}{% endblock%}">&rarr; پست های جدید</a></div>
+                    {% endif %}
+                </div>
+            {% endif %}
+            </div>        
+        </div>
+    </div>
+</div>
+{% endblock %}
