@@ -3,12 +3,14 @@ from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 
 
+# add custom fields to our user class
 class User(AbstractUser):
     email = models.EmailField(unique=True, verbose_name='ایمیل')
     is_author = models.BooleanField(
         default=False, verbose_name='وضعیت نویسندگی')
     special_user = models.DateTimeField(
         default=timezone.now, verbose_name='کاربر ویژه تا')
+    image = models.ImageField(upload_to="avatar",default='image/16410.jpg', verbose_name='آواتار')
 
     def is_special_user(self):
         if self.special_user > timezone.now():

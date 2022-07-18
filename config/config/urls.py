@@ -7,9 +7,13 @@ from account.views import register
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # include blog app urls to here
     path('', include('blog.urls')),
+    # include login,logout,... urls to here
     path('', include('django.contrib.auth.urls')),
+    # include account urls to here
     path('account/', include('account.urls')),
+    # custom login,logout,changepassword form
     path("login/", CustomLogin.as_view(), name="login"),
     path("register/", register, name="register"),
     path(

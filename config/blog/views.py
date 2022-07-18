@@ -17,10 +17,12 @@ class ArticleDetail(DetailView):
     template_name = "blog/post.html"
     context_object_name = "article"
 
+    # get published articles from models
     def get_object(self):
         slug = self.kwargs.get('slug')
         obj = get_object_or_404(Article.objects.published(), slug=slug)
         return obj
+
 
 class ArticlePreview(AuthorAccessMixin2, DetailView):
     template_name = "blog/post.html"
@@ -36,16 +38,19 @@ class CategoryList(ListView):
     template_name = "blog/category.html"
     context_object_name = "articles"
 
+    # get active category
     def get_queryset(self):
         global category
         slug = self.kwargs.get('slug')
         category = get_object_or_404(Category.objects.actived(), slug=slug)
+        # get articles from that category
         articles_category = category.articles.published()
 
         return articles_category
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # send category with context
         context['category'] = category
 
         return context
@@ -61,6 +66,7 @@ class AuthorList(ListView):
         global author
         username = self.kwargs.get('username')
         author = get_object_or_404(User, username=username)
+        # get articles from that user
         articles_author = author.articles.published()
 
         return articles_author

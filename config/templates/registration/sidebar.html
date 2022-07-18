@@ -14,16 +14,20 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="https://www.cortrucent.com/hs-fs/hubfs/images/images-for-website/male-gravatar-compressor.png?width=574&name=male-gravatar-compressor.png" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="{% url 'blog:author' user.username %}" class="d-block">
+          {% if user.image %}
+            <img src="{{user.image.url}}" class="img-circle elevation-2" style="height: 50px; width: 50px;" alt="">
+          {% else %}
+            <img src="https://www.cortrucent.com/hs-fs/hubfs/images/images-for-website/male-gravatar-compressor.png?width=574&name=male-gravatar-compressor.png" class="img-circle elevation-2" alt="User Image">
+          {% endif %}
+          <a href="{% url 'blog:author' user.username %}" style="padding: 4px;">
             {% if user.get_full_name %}
               {{user.get_full_name}}
             {% else %}
               {{user.username}}
             {% endif %}
           </a>
+        </div>
+        <div class="info">
         </div>
       </div>
 

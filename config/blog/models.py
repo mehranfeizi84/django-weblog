@@ -71,9 +71,11 @@ class Article(models.Model):
     def __str__(self):
         return self.title
 
+    # for redirect to home account
     def get_absolute_url(self):
         return reverse('account:home')
 
+    # to look better date/time publish
     def jpublish(self):
         return jalali_converter(self.publish)
     jpublish.short_description = 'تاریخ انتشار'
@@ -81,10 +83,12 @@ class Article(models.Model):
     def publish_category(self):
         return self.category.filter(status=True)
 
+    # show category in panel
     def category_to_str(self):
         return ",".join([category.title for category in self.category.actived()])
     category_to_str.short_description = 'دسته بندی'
 
+    # to show thumbnail article in panel
     def thumbnail_tag(self):
         return format_html("<img height=100 width=120 style='border-radius: 7px;' src='{}'>".format(self.thumbnail.url))
     thumbnail_tag.short_description = 'عکس'

@@ -1,10 +1,11 @@
 from django.contrib import admin
 from .models import Article, Category
 
-
+# admin header title
 admin.site.site_header = "مدیریت جنگو"
 
 
+# action for make some object to publish status
 def make_published(modeladmin, request, queryset):
     row_updated = queryset.update(status='p')
     if row_updated == 1:
@@ -17,6 +18,7 @@ def make_published(modeladmin, request, queryset):
 make_published.short_description = "انتشار مقالات انتخاب شده"
 
 
+# action for make some object to draft status
 def make_draft(modeladmin, request, queryset):
     row_updated = queryset.update(status='d')
     if row_updated == 1:
@@ -29,6 +31,7 @@ def make_draft(modeladmin, request, queryset):
 make_draft.short_description = "پیش نویس کردن مقالات انتخاب شده"
 
 
+# action for make some object to true status
 def make_true(modeladmin, request, queryset):
     row_updated = queryset.update(status=True)
     if row_updated == 1:
@@ -41,6 +44,7 @@ def make_true(modeladmin, request, queryset):
 make_true.short_description = "فعال کردن دسته بندی های انتخاب شده"
 
 
+# action for make some object to false status
 def make_false(modeladmin, request, queryset):
     row_updated = queryset.update(status=False)
     if row_updated == 1:

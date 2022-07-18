@@ -5,6 +5,7 @@ from django.contrib.auth.views import LoginView
 from django.core import validators
 
 
+# custom form for profile view and show custom fields in profile template
 class ProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs) -> None:
         user = kwargs.pop('user')
@@ -14,6 +15,7 @@ class ProfileForm(forms.ModelForm):
         if not user.is_superuser:
             self.fields['username'].disabled = True
             self.fields['username'].help_text = None
+            self.fields['image'].help_text = "یه عکس واسه پروفایلت انتخاب کن"
             self.fields['email'].disabled = True
             self.fields['is_author'].disabled = True
             self.fields['special_user'].disabled = True
@@ -30,9 +32,11 @@ class ProfileForm(forms.ModelForm):
         'last_name',
         'is_author',
         'special_user',
+        'image',
     ]
 
 
+# custom login form and changed success_url
 class CustomLogin(LoginView):
     def get_success_url(self):
         user = self.request.user
@@ -42,6 +46,7 @@ class CustomLogin(LoginView):
             return reverse_lazy('account:profile')
 
 
+# custom form for register view and hadle errors
 class RegisterForm(forms.Form):
     user_name = forms.CharField(
         label='نام کاربری:',

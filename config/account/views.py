@@ -2,7 +2,12 @@ from django.shortcuts import redirect, get_object_or_404, render
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from .mixins import FieldsMixin, FormValidMixin, AuthorAccessMixin, SuperUserAccessMixin, AuthorsAccessMixin
+from .mixins import (FieldsMixin,
+    FormValidMixin,
+    AuthorAccessMixin,
+    SuperUserAccessMixin,
+    AuthorsAccessMixin,
+)
 from blog.models import Article
 from .models import User
 from .forms import ProfileForm
@@ -15,6 +20,7 @@ class HomeAccount(AuthorsAccessMixin, ListView):
     context_object_name = "articles"
 
     def get_queryset(self):
+        # if you're superuser you can see all article in website else you just can see your articles
         if self.request.user.is_superuser:
             return Article.objects.all()
         else:
@@ -34,6 +40,7 @@ class UpdateArticle(AuthorsAccessMixin, FormValidMixin, FieldsMixin, UpdateView)
 class DeleteArticle(SuperUserAccessMixin, DeleteView):
     model = Article
     template_name = 'registration/article-delete.html'
+    # after being operation successful,it redirects to home account
     success_url = reverse_lazy('account:home')
 
 
@@ -41,12 +48,14 @@ class Profile(LoginRequiredMixin, UpdateView):
     model = User
     template_name = 'registration/profile.html'
     form_class = ProfileForm
-
+    # after being operation successful,it redirects to profile
     success_url = reverse_lazy('account:profile')
 
     def get_object(self):
+        # you receive the users pk and you find the users that has this pk
         return get_object_or_404(User, pk=self.request.user.pk)
 
+    # update the kwargs and send a new kwarg
     def get_form_kwargs(self):
         kwargs = super(Profile, self).get_form_kwargs()
         kwargs.update({
@@ -57,19 +66,23 @@ class Profile(LoginRequiredMixin, UpdateView):
 
 
 class ChangePassword(PasswordChangeView):
+    # after being operation successful,it redirects to password change done view
     success_url = reverse_lazy('password_change_done')
 
 
 def register(request, *args, **kwargs):
+    # if you're authenticate you will redirect to home
     if request.user.is_authenticated:
         return redirect("/")
 
+    # choice custom register form for register operation
     register_form = RegisterForm(request.POST or None)
 
     if register_form.is_valid():
         user_name = register_form.cleaned_data.get('user_name')
         email = register_form.cleaned_data.get('email')
         password = register_form.cleaned_data.get('password')
+        # get information in form and create a user with that information
         User.objects.create_user(username=user_name,email=email,password=password)
         return redirect("/login")
 
