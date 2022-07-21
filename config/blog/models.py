@@ -4,6 +4,8 @@ from account.models import User
 from django.urls import reverse
 import datetime
 from extension.utils import jalali_converter
+from django.contrib.contenttypes.fields import GenericRelation
+from comment.models import Comment
 
 
 class ArticleManger(models.Manager):
@@ -60,6 +62,7 @@ class Article(models.Model):
     is_special = models.BooleanField(default=False, verbose_name='مقاله ویژه')
     status = models.CharField(
         max_length=1, choices=STATUS_CHOICES, verbose_name='وضعیت')
+    comments = GenericRelation(Comment)
 
     objects = ArticleManger()
 

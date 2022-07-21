@@ -1,5 +1,5 @@
 /*
-DJANGO Admin styles
+    DJANGO Admin styles
 */
 
 @import url(fonts.css);
@@ -99,7 +99,7 @@ body {
     margin: 0;
     padding: 0;
     font-size: 14px;
-    font-family: "koskhol";
+    font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
     color: var(--body-fg);
     background: var(--body-bg);
 }
@@ -107,7 +107,7 @@ body {
 /* LINKS */
 
 a:link, a:visited {
-    color: #9d97b8 !important;
+    color: var(--link-fg);
     text-decoration: none;
     transition: color 0.15s, background 0.15s;
 }
@@ -231,7 +231,7 @@ blockquote {
 }
 
 code, pre {
-    font-family: "koskhol";
+    font-family: "Bitstream Vera Sans Mono", Monaco, "Courier New", Courier, monospace;
     color: var(--body-quiet-color);
     font-size: 12px;
     overflow-x: auto;
@@ -476,7 +476,7 @@ input, textarea, select, .form-row p, form .button {
     margin: 2px 0;
     padding: 2px 3px;
     vertical-align: middle;
-    font-family: "koskhol";
+    font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
     font-weight: normal;
     font-size: 13px;
 }
@@ -593,7 +593,6 @@ input[type=button][disabled].default {
     text-align: left;
     background: var(--primary);
     color: var(--header-link-color);
-    background-color: #090d46 !important;
 }
 
 .module caption,
@@ -705,7 +704,7 @@ td ul.errorlist + input, td ul.errorlist + select, td ul.errorlist + textarea {
 /* BREADCRUMBS */
 
 div.breadcrumbs {
-    background-color: #006b1b !important;
+    background: var(--breadcrumbs-bg);
     padding: 10px 40px;
     border: none;
     color: var(--breadcrumbs-fg);
@@ -901,7 +900,8 @@ table#change-history tbody th {
     justify-content: space-between;
     align-items: center;
     padding: 10px 40px;
-    background-color: #1d033f !important;
+    background: var(--header-bg);
+    color: var(--header-color);
     overflow: hidden;
 }
 
@@ -1049,10 +1049,4 @@ table#change-history tbody th {
 
 .popup #header {
     padding: 10px 20px;
-}
-
-#container {
-    font-size: 14px;
-    font-family: "koskhol";
-    color: #6364b7;
 }

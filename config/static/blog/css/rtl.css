@@ -10,7 +10,7 @@
 
 body  {
     direction: rtl;
-    text-align: right;
+    text-align: right !important;
     font-family: "Sahel";
 }
 

@@ -19,4 +19,5 @@ urlpatterns = [
     path(
         "password_change/", ChangePassword.as_view(), name="password_change"
     ),
+    path('comment/', include('comment.urls')),
 ]

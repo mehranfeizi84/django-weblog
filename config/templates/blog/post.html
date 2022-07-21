@@ -1,12 +1,13 @@
 {% extends 'blog/base.html' %}
 {% load static %}
+{% load comment_tags %}
 
 {% block title %}
    | {{article.title}}
 {% endblock %}
 
 {% block main %}
-        <header class="masthead" style="background-image: url('{{ article.thumbnail.url }}')">
+        <header class="masthead" style="width: 1340px; height: 700px; background-image: url('{{ article.thumbnail.url }}')">
             <div class="container position-relative px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
@@ -40,6 +41,10 @@
                                 {{ article.description|safe }}
                             {% endif %}
                         </article>
+                        <div>
+                            {% render_comments article request %}
+                            {% include_bootstrap %}
+                        </div>
                     </div>
                 </div>
             </div>
