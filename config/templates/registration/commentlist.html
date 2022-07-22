@@ -1,0 +1,64 @@
+{% extends 'registration/base.html' %}
+{% load comment_tags %}
+{% block btitle %}
+    | نظرات
+{% endblock %}
+
+{% block title %}
+    نظرات
+{% endblock %}
+
+
+{% block main %}
+<div class="row">
+    <div class="col-12">
+      {% if comments %}
+        <div class="card">
+          <div class="card-body table-responsive p-0">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>محتوا نظر</th>
+                  <th>نویسنده نظر</th>
+                  <th>نظر والد</th>
+                  <th>زمان انتشار</th>
+                  <th>زمان ویرایش</th>
+                  <th>نوع نظر</th>
+                  <th>وضعیت</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for comment in comments %}
+                  <tr>
+                      <td>
+                        <a href="{% url 'account:update-comment' comment.pk %}">{{comment.content|striptags|truncatewords:60}}</a>
+                      </td>
+                      <td>
+                        {{comment.user}}
+                      </td>
+                      <td>
+                        {{comment.parent}}
+                      </td>
+                      <td>{{comment.posted}}</td>
+                      <td>{{comment.edited}}</td>
+                      <td>{{comment.content_type}}</td>
+                      <td>
+                        {% if user.is_superuser or user.is_author %}
+                            <span class="badge"><a href="{% url 'account:delete-comment' comment.pk %}">حذف</a></span>
+                        {% elif comment.user == user %}
+                            <span class="badge"><a href="{% url 'account:delete-comment' comment.pk %}">حذف</a></span>
+                        {% endif %}
+                      </td>
+                  </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      {% else %}
+            <h3>محتوایی برای نمایش وجود ندارد</h3>
+      {% endif %}
+    </div>
+</div>
+{% endblock %}

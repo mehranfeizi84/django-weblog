@@ -38,7 +38,7 @@
                with font-awesome or any other icon font library -->
           {% if user.is_superuser or user.is_author %}
             <li class="nav-item has-treeview menu-open">
-              <a href="#" class="nav-link active">
+              <a href="#" class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
                   مقالات
@@ -61,6 +61,23 @@
               </ul>
             </li>
           {% endif %}
+          <li class="nav-item has-treeview menu-open">
+            <a href="#" class="nav-link {% if request.resolver_match.url_name == 'comments' %}active{% endif %}">
+              <i class="far fa-comments"></i>
+              <p>
+                نظرات
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url 'account:comments' %}" class="nav-link {% if request.resolver_match.url_name == 'comments' %}active{% endif %}">
+                  <i class="far fa-comments"></i>
+                  <p>لیست نظرات</p>
+                </a>
+              </li>
+            </ul>
+          </li>
           <li class="nav-item">
             <a href="{% url 'account:profile' %}" class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}">
               <i class="nav-icon fas fa-th"></i>

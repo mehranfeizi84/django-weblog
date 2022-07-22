@@ -30,7 +30,7 @@ class Comment(models.Model):
     objects = CommentManager()
 
     class Meta:
-        ordering = ['-posted', ]
+        ordering = ['-posted']
 
     def __str__(self):
         username = self.get_username()

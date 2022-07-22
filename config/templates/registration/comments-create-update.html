@@ -1,0 +1,49 @@
+{% extends 'registration/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block btitle %}{% block title %}
+    ویرایش نظر
+{% endblock %}{% endblock %}
+
+{% block main %}
+<div class="col-md-12">
+    <div class="card card-primary">
+      <div class="card-header">
+        {% if user.is_superuser %}
+            <h3 class="card-title mb-0 float-left">ویرایش نظر</h3>
+        {% else %}
+            <h3 class="card-title mb-0 float-left">ویرایش نظر</h3>
+        {% endif %}
+    </div>
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data">{% csrf_token %}
+            <div class="form-row">
+                <div class="form-group col-md-6 mb-0">
+                  {{ form.user|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-6 mb-0">
+                  {{ form.email|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-12 mb-0">
+                    {{ form.parent|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-12 mb-0">
+                    {{ form.content|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-6 mb-0">
+                    {{ form.content_type|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-6 mb-0">
+                    {{ form.object_id|as_crispy_field }}
+                </div>
+            </div>
+            <button class="btn btn-primary">ارسال نظر</button>
+            {% if request.resolver_match.kwargs.pk %}
+                <button class="btn btn-danger">
+                    <a href="{% url 'account:delete-comment' request.resolver_match.kwargs.pk %}">حذف</a>
+                </button>
+            {% endif %}
+        </form>
+    </div>
+</div>
+{% endblock %}

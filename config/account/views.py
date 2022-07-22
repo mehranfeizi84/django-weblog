@@ -2,7 +2,10 @@ from django.shortcuts import redirect, get_object_or_404, render
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from .mixins import (FieldsMixin,
+from .mixins import (
+    FieldsMixin,
+    FieldsMixin2,
+    FieldsMixin3,
     FormValidMixin,
     AuthorAccessMixin,
     SuperUserAccessMixin,
@@ -13,6 +16,7 @@ from .models import User
 from .forms import ProfileForm
 from django.contrib.auth.views import PasswordChangeView
 from .forms import RegisterForm
+from comment.models.comments import Comment
 
 
 class HomeAccount(AuthorsAccessMixin, ListView):
@@ -83,7 +87,8 @@ def register(request, *args, **kwargs):
         email = register_form.cleaned_data.get('email')
         password = register_form.cleaned_data.get('password')
         # get information in form and create a user with that information
-        User.objects.create_user(username=user_name,email=email,password=password)
+        User.objects.create_user(
+            username=user_name, email=email, password=password)
         return redirect("/login")
 
     context = {
@@ -92,3 +97,45 @@ def register(request, *args, **kwargs):
 
     return render(request, 'registration/register.html', context)
 
+
+class CommentList(ListView):
+    template_name = 'registration/commentlist.html'
+    context_object_name = "comments"
+
+    def get_queryset(self):
+        # if you're superuser you can see all article in website else you just can see your articles
+        if self.request.user.is_superuser:
+            return Comment.objects.all()
+        else:
+            return Comment.objects.filter(user=self.request.user)
+
+
+class UpdateComment(FieldsMixin2, UpdateView):
+    model = Comment
+    template_name = 'registration/comments-create-update.html'
+    success_url = reverse_lazy('account:comments')
+
+
+class DeleteComment(DeleteView):
+    model = Comment
+    template_name = 'registration/comment-delete.html'
+    # after being operation successful,it redirects to home comments
+    success_url = reverse_lazy('account:comments')
+
+
+class CommentsArticleList(ListView):
+    template_name = 'registration/commentlistarticle.html'
+    context_object_name = "comments"
+
+    def get_queryset(self):
+        global article
+        pk = self.kwargs.get('pk')
+        article = Article.objects.get(pk=pk)
+        return article.comments.all
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # send category with context
+        context['article'] = article
+
+        return context

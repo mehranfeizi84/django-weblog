@@ -20,6 +20,31 @@ class FieldsMixin():
             self.fields.append("author")
         return super().dispatch(request, *args, **kwargs)
 
+# mixin for show cutom fields
+class FieldsMixin2():
+    def dispatch(self, request, *args, **kwargs):
+        self.fields = [
+                "user",
+                "email",
+                "parent",
+                "content",
+            ]
+        return super().dispatch(request, *args, **kwargs)
+
+
+# mixin for show cutom fields
+class FieldsMixin3():
+    def dispatch(self, request, *args, **kwargs):
+        self.fields = [
+                "user",
+                "email",
+                "parent",
+                "content_type",
+                "object_id",
+                "content",
+            ]
+        return super().dispatch(request, *args, **kwargs)
+
 
 # limited choice status for authors and unlimited choice status for superusers
 class FormValidMixin():

@@ -1,0 +1,70 @@
+{% extends 'registration/base.html' %}
+{% load comment_tags %}
+{% load i18n %}
+{% block btitle %}
+    | نظرات
+{% endblock %}
+
+{% block title %}
+    نظرات
+{% endblock %}
+
+
+{% block main %}
+<div class="row">
+    <div class="col-12">
+      {% if comments %}
+        <div class="card">
+          <div class="card-body table-responsive p-0">
+            <table class="table table-hover">
+              <thead>
+                <span class="badge badge-primary"><p style="padding: 5px; width: 88px; height:5px; border-radius: 40px;">تعداد نظرات : {% get_comments_count article user %}</p></span>
+                <tr>
+                  <th>محتوا نظر</th>
+                  <th>نویسنده نظر</th>
+                  <th>نظر والد</th>
+                  <th>زمان انتشار</th>
+                  <th>زمان ویرایش</th>
+                  <th>نوع نظر</th>
+                  <th>وضعیت</th>
+                  <th>مقاله</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for comment in comments %}
+                  <tr>
+                      <td>
+                        <a href="{% url 'account:update-comment' comment.pk %}">{{comment.content|striptags|truncatewords:30}}</a>
+                      </td>
+                      <td>
+                        {{comment.user}}
+                      </td>
+                      <td>
+                        {{comment.parent}}
+                      </td>
+                      <td>{{comment.posted}}</td>
+                      <td>{{comment.edited}}</td>
+                      <td>{{comment.content_type}}</td>
+                      <td>
+                        {% if user.is_superuser or user.is_author %}
+                            <span class="badge"><a href="{% url 'account:delete-comment' comment.pk %}">حذف</a></span>
+                        {% elif comment.user == user %}
+                            <span class="badge"><a href="{% url 'account:delete-comment' comment.pk %}">حذف</a></span>
+                        {% endif %}
+                      </td>
+                      <td>
+                        <span class="badge badge-warning"><a target="_blank" href="{% url 'blog:detail' article.slug %}">لینک مقاله</a></span>
+                      </td>
+                  </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      {% else %}
+            <h3>محتوایی برای نمایش وجود ندارد</h3>
+      {% endif %}
+    </div>
+</div>
+{% endblock %}
