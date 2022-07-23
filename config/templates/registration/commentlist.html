@@ -1,5 +1,7 @@
 {% extends 'registration/base.html' %}
 {% load comment_tags %}
+{% has_reacted user=user comment=comment reaction="like" as has_user_liked %}
+
 {% block btitle %}
     | نظرات
 {% endblock %}
@@ -16,11 +18,30 @@
         <div class="card">
           <div class="card-body table-responsive p-0">
             <table class="table table-hover">
+              {% if user.is_superuser %}
+                  <span class="badge badge-primary"><p style="padding: 5px; width: 95px; height:5px; border-radius: 40px;">تعداد نظرات : {{count}}</p></span>
+              {% else %}
+                  <span class="badge badge-primary"><p style="padding: 5px; width: 95px; height:5px; border-radius: 40px;">تعداد نظرات : {{count_author}}</p></span>
+              {% endif %}
               <thead>
                 <tr>
                   <th>محتوا نظر</th>
                   <th>نویسنده نظر</th>
                   <th>نظر والد</th>
+                  <th>
+                    <svg class="comment-reaction-icon reaction-like {% if has_user_liked %}user-has-reacted{% else %}user-has-not-reacted{% endif %}"
+                    xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                    stroke="{% block like_icon_color %}#427297{% endblock like_icon_color %}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+                    </svg>
+                  </th>
+                  <th>
+                    <svg class="comment-reaction-icon reaction-dislike {% if has_user_disliked %}user-has-reacted{% else %}user-has-not-reacted{% endif %}"
+                    xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                    stroke="{% block dislike_icon_color %}#427297{% endblock dislike_icon_color %}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path>
+                    </svg>
+                  </th>
                   <th>زمان انتشار</th>
                   <th>زمان ویرایش</th>
                   <th>نوع نظر</th>
@@ -39,14 +60,16 @@
                       <td>
                         {{comment.parent}}
                       </td>
+                      <td>{{comment.likes}}</td>
+                      <td>{{comment.dislikes}}</td>
                       <td>{{comment.posted}}</td>
                       <td>{{comment.edited}}</td>
                       <td>{{comment.content_type}}</td>
                       <td>
                         {% if user.is_superuser or user.is_author %}
-                            <span class="badge"><a href="{% url 'account:delete-comment' comment.pk %}">حذف</a></span>
+                            <a class="badge badge-danger" href="{% url 'account:delete-comment' comment.pk %}">حذف</a>
                         {% elif comment.user == user %}
-                            <span class="badge"><a href="{% url 'account:delete-comment' comment.pk %}">حذف</a></span>
+                            <a class="badge badge-danger" href="{% url 'account:delete-comment' comment.pk %}">حذف</a>
                         {% endif %}
                       </td>
                   </tr>

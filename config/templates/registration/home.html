@@ -69,11 +69,11 @@
                           {% endif %}
 
                           {% if user.is_superuser or article.author == user and article.status == 'd' %}
-                              <span class="badge"><a href="{% url 'account:delete-article' article.pk %}">حذف</a></span>
+                              <a class="badge badge-danger" href="{% url 'account:delete-article' article.pk %}">حذف</a>
                           {% endif %}
                       </td>
                       <td>
-                        <span class="badge"><a target="_blank" href="{% url 'account:comments-article' article.pk %}">نظرات این مقاله</a></span>
+                        <a class="badge badge-secondary" target="_blank" href="{% url 'account:comments-article' article.pk %}">نظرات این مقاله</a>
                       </td>
                   </tr>
                 {% endfor %}

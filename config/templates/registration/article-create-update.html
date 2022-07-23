@@ -66,7 +66,7 @@
             <button class="btn btn-primary">ارسال مقاله</button>
             {% if request.resolver_match.kwargs.pk %}
                 <button class="btn btn-danger">
-                    <a href="{% url 'account:delete-article' request.resolver_match.kwargs.pk %}">حذف</a>
+                    <a class="badge badge-danger" href="{% url 'account:delete-article' request.resolver_match.kwargs.pk %}">حذف</a>
                 </button>
             {% endif %}
         </form>

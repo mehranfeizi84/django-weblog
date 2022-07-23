@@ -30,17 +30,11 @@
                 <div class="form-group col-md-12 mb-0">
                     {{ form.content|as_crispy_field }}
                 </div>
-                <div class="form-group col-md-6 mb-0">
-                    {{ form.content_type|as_crispy_field }}
-                </div>
-                <div class="form-group col-md-6 mb-0">
-                    {{ form.object_id|as_crispy_field }}
-                </div>
             </div>
             <button class="btn btn-primary">ارسال نظر</button>
             {% if request.resolver_match.kwargs.pk %}
                 <button class="btn btn-danger">
-                    <a href="{% url 'account:delete-comment' request.resolver_match.kwargs.pk %}">حذف</a>
+                    <a class="badge badge-danger" href="{% url 'account:delete-comment' request.resolver_match.kwargs.pk %}">حذف</a>
                 </button>
             {% endif %}
         </form>

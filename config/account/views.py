@@ -10,6 +10,7 @@ from .mixins import (
     AuthorAccessMixin,
     SuperUserAccessMixin,
     AuthorsAccessMixin,
+    DeleteCommentAccessMixin,
 )
 from blog.models import Article
 from .models import User
@@ -98,7 +99,7 @@ def register(request, *args, **kwargs):
     return render(request, 'registration/register.html', context)
 
 
-class CommentList(ListView):
+class CommentList(LoginRequiredMixin, ListView):
     template_name = 'registration/commentlist.html'
     context_object_name = "comments"
 
@@ -107,23 +108,39 @@ class CommentList(ListView):
         if self.request.user.is_superuser:
             return Comment.objects.all()
         else:
-            return Comment.objects.filter(user=self.request.user)
+            if self.request.user.is_superuser:
+                pass
+            else:
+                global comments
+            comments =  Comment.objects.filter(user=self.request.user)
+            return comments
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # send category with context
+        if self.request.user.is_superuser:
+            count = Comment.objects.count()
+            context['count'] = count
+        else:
+            count_author = comments.count()
+            context['count_author'] = count_author
+
+        return context
 
 
-class UpdateComment(FieldsMixin2, UpdateView):
+class UpdateComment(FieldsMixin2, AuthorsAccessMixin, UpdateView):
     model = Comment
     template_name = 'registration/comments-create-update.html'
     success_url = reverse_lazy('account:comments')
 
 
-class DeleteComment(DeleteView):
+class DeleteComment(DeleteCommentAccessMixin, DeleteView):
     model = Comment
     template_name = 'registration/comment-delete.html'
     # after being operation successful,it redirects to home comments
     success_url = reverse_lazy('account:comments')
 
 
-class CommentsArticleList(ListView):
+class CommentsArticleList(AuthorsAccessMixin, ListView):
     template_name = 'registration/commentlistarticle.html'
     context_object_name = "comments"
 

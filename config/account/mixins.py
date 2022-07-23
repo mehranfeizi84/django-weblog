@@ -1,6 +1,7 @@
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
 from blog.models import Article
+from comment.models.comments import Comment
 
 
 # mixin for show cutom fields
@@ -97,6 +98,15 @@ class SuperUserAccessMixin():
         article = get_object_or_404(Article, pk=pk)
         if request.user.is_superuser or article.author == request.user\
              and article.status == 'd':
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            raise Http404(":)مالیدی")
+
+
+class DeleteCommentAccessMixin():
+    def dispatch(self, request, pk, *args, **kwargs):
+        comment = get_object_or_404(Comment, pk=pk)
+        if request.user.is_superuser or request.user.is_author or comment.user == request.user:
             return super().dispatch(request, *args, **kwargs)
         else:
             raise Http404(":)مالیدی")
