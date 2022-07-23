@@ -1,5 +1,5 @@
 from django.urls import path
-from blog.views import ArticleDetail, CategoryList, ArticleList, AuthorList, ArticlePreview
+from blog.views import ArticleDetail, CategoryList, ArticleList, AuthorList, ArticlePreview, LikeView, DislikeView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -13,6 +13,8 @@ urlpatterns = [
     path('category/<slug>/page/<int:page>', CategoryList.as_view(), name='category'),
     path('author/<username>', AuthorList.as_view(), name='author'),
     path('author/<username>/page/<int:page>', AuthorList.as_view(), name='author'),
+    path('like/<slug>', LikeView, name='like'),
+    path('dislike/<slug>', DislikeView, name='dislike'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

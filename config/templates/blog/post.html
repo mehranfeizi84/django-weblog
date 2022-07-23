@@ -41,6 +41,36 @@
                                 {{ article.description|safe }}
                             {% endif %}
                         </article>
+                        <hr>
+                        <div>
+                            {% if user.is_authenticated %}
+                                {% if liked %}
+                                        <span class="js-like-number text-dark"><a href="{% url 'blog:like' article.slug %}">{{total_likes}}
+                                            <i class="fa-solid fa-thumbs-up"></i>
+                                        </a></span>
+                                {% elif liked == False %}
+                                        <span class="js-like-number text-dark"><a href="{% url 'blog:like' article.slug %}">{{total_likes}}
+                                            <i class="fa-regular fa-thumbs-up"></i>
+                                        </a></span>
+                                {% endif %}
+                                {% if disliked %}
+                                    <span class="js-like-number text-dark"><a href="{% url 'blog:dislike' article.slug %}">{{total_dislikes}}
+                                        <i class="fa-solid fa-thumbs-down"></i>
+                                    </a></span>
+                                {% elif disliked == False %}
+                                    <span class="js-like-number text-dark"><a href="{% url 'blog:dislike' article.slug %}">{{total_dislikes}}
+                                        <i class="fa-regular fa-thumbs-down"></i>
+                                    </a></span>
+                                {% endif %}
+                            {% else %}
+                                <span style="padding: 12px;" class="badge badge-danger">برای لایک کردن باید <a href="{% url 'login' %}">وارد</a> شوید</span>
+                                <span class="js-like-number text-dark"><a href="">{{total_likes}}
+                                    <i class="fa-regular fa-thumbs-up"></i>
+                                <span class="js-like-number text-dark"><a href="">{{total_dislikes}}
+                                    <i class="fa-regular fa-thumbs-down"></i>
+                            {% endif %}
+                        </div>
+                        <hr>
                         <div>
                             {% render_comments article request %}
                             {% include_bootstrap %}

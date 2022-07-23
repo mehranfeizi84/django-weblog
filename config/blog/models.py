@@ -63,6 +63,8 @@ class Article(models.Model):
     status = models.CharField(
         max_length=1, choices=STATUS_CHOICES, verbose_name='وضعیت')
     comments = GenericRelation(Comment)
+    likes = models.ManyToManyField(User, related_name='likes')
+    dislikes = models.ManyToManyField(User, related_name='dislikes')
 
     objects = ArticleManger()
 
@@ -73,6 +75,12 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
+
+    def total_likes(self):
+        return self.likes.count()
+
+    def total_dislikes(self):
+        return self.dislikes.count()
 
     # for redirect to home account
     def get_absolute_url(self):
