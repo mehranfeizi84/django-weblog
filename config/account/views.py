@@ -6,6 +6,7 @@ from .mixins import (
     FieldsMixin,
     FieldsMixin2,
     FieldsMixin3,
+    FieldsMixin4,
     FormValidMixin,
     AuthorAccessMixin,
     SuperUserAccessMixin,
@@ -20,8 +21,12 @@ from .forms import RegisterForm
 from comment.models.comments import Comment
 
 
-class HomeAccount(AuthorsAccessMixin, ListView):
-    template_name = 'registration/home.html'
+def home(request):
+    return render(request, 'registration/home.html')
+
+
+class ArticlesList(AuthorsAccessMixin, ListView):
+    template_name = 'registration/articles.html'
     context_object_name = "articles"
 
     def get_queryset(self):
@@ -46,7 +51,7 @@ class DeleteArticle(SuperUserAccessMixin, DeleteView):
     model = Article
     template_name = 'registration/article-delete.html'
     # after being operation successful,it redirects to home account
-    success_url = reverse_lazy('account:home')
+    success_url = reverse_lazy('account:articles')
 
 
 class Profile(LoginRequiredMixin, UpdateView):
@@ -156,3 +161,31 @@ class CommentsArticleList(AuthorsAccessMixin, ListView):
         context['article'] = article
 
         return context
+
+
+class UsersList(ListView):
+    template_name = 'registration/users.html'
+    context_object_name = "users"
+
+    def get_queryset(self):
+            global users
+            users = User.objects.all()
+            return users
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # send category with context
+        context['count'] = users.count()
+
+        return context
+
+class UpdateUser(FieldsMixin4, UpdateView):
+    model = User
+    template_name = 'registration/user-create-update.html'
+    success_url = reverse_lazy('account:users')
+
+class DeleteUser(DeleteView):
+    model = User
+    template_name = 'registration/user-delete.html'
+    # after being operation successful,it redirects to home comments
+    success_url = reverse_lazy('account:users')

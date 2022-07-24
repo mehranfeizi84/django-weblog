@@ -21,3 +21,6 @@ urlpatterns = [
     ),
     path('comment/', include('comment.urls')),
 ]
+
+
+handler404 = 'blog.views.error_404'

@@ -2,6 +2,7 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
 from blog.models import Article
 from comment.models.comments import Comment
+from account.models import User
 
 
 # mixin for show cutom fields
@@ -46,12 +47,31 @@ class FieldsMixin3():
             ]
         return super().dispatch(request, *args, **kwargs)
 
+# mixin for show cutom fields
+class FieldsMixin4():
+    def dispatch(self, request, *args, **kwargs):
+        self.fields = [
+                "username",
+                "first_name",
+                "last_name",
+                "blocked",
+            ]
+        return super().dispatch(request, *args, **kwargs)
+
 
 # limited choice status for authors and unlimited choice status for superusers
 class FormValidMixin():
     def form_valid(self, form):
         if self.request.user.is_superuser:
-            form.save()
+            self.obj = form.save(commit=False)
+            if self.obj.author == self.request.user:
+                pass
+            elif self.obj.author in User.objects.filter(is_author=True):
+                form.save()
+            else:
+                self.obj = form.save(commit=False)
+                self.obj.author = self.request.user
+
         else:
             self.obj = form.save(commit=False)
             self.obj.author = self.request.user

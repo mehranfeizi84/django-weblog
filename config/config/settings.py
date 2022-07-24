@@ -16,7 +16,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # after login by default it redirect to home account
-LOGIN_REDIRECT_URL = 'account:home'
+LOGIN_REDIRECT_URL = 'account:articles'
 # login url
 LOGIN_URL = 'login'
 # after logout by default it redirect to login view

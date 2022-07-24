@@ -1,110 +1,19 @@
-{% extends 'registration/base.html' %}
-{% block btitle %}
-    | مقالات
-{% endblock %}
+<div class="col-lg-3 col-6" style="font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+font-size: 1rem;
+font-weight: 400;
+line-height: 1.5;
+color: #212529;
+text-align: right;">
+    <!-- small box -->
+    <div class="small-box bg-info">
+      <div class="inner">
+        <h3>150</h3>
 
-{% block title %}
-    مقالات
-{% endblock %}
-
-
-{% block main %}
-<div class="row">
-    <div class="col-12">
-      {% if articles %}
-        <div class="card">
-          <div class="card-body table-responsive p-0">
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th>عنوان مقاله</th>
-                  <th>تصویر مقاله</th>
-                  <th>توضیحات</th>
-                  <th>نویسنده</th>
-                  <th>دسته بندی</th>
-                  <th>زمان انتشار</th>
-                  <th>مقاله ویژه</th>
-                  <th>وضعیت</th>
-                  <th>
-                    <svg class="comment-reaction-icon reaction-like {% if has_user_liked %}user-has-reacted{% else %}user-has-not-reacted{% endif %}"
-                    xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                    stroke="{% block like_icon_color %}#427297{% endblock like_icon_color %}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
-                    </svg>
-                  </th>
-                  <th>
-                    <svg class="comment-reaction-icon reaction-dislike {% if has_user_disliked %}user-has-reacted{% else %}user-has-not-reacted{% endif %}"
-                    xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                    stroke="{% block dislike_icon_color %}#427297{% endblock dislike_icon_color %}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path>
-                    </svg>
-                  </th>
-                  <th>نظرات</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for article in articles %}
-                  <tr>
-                      <td>
-                        {% if article.status in 'bd'|make_list or user.is_superuser %}
-                          <a href="{% url 'account:update-article' article.pk %}">{{article.title}}</a>
-                        {% else %}
-                          {{article.title}}
-                        {% endif %}
-                      </td>
-                      <td><img src="{{article.thumbnail.url}}" width="120px" alt="article picture"></td>
-                      <td>{{article.description|striptags|truncatewords:30}}</td>
-                      <td>{{article.author.get_full_name}}</td>
-                      <td>{{article.category_to_str}}</td>
-                      <td>{{article.jpublish}}</td>
-                      <td>
-                        {% if article.is_special %}
-                            <i class="fa fa-check-circle" style="color: green;"></i>
-                        {% else %}
-                            <i class="fa fa-minus-circle" style="color: red;"></i>
-                        {% endif %}
-                      </td>
-                      <td>
-                          {% if article.status == 'p' %}
-                              <span class="badge badge-success">منتشر شده</span>
-                              <a class="badge badge-primary" target="_blank" href="{% url 'blog:detail' article.slug %}">نمایش مقاله</a>
-                          {% elif article.status == 'i' %}
-                              <span class="badge" style="background-color: rgb(0, 0, 0); color: white;">درحال بررسی</span>
-                              {% if user.is_superuser %}
-                                  <a target="_blank" class="badge badge-secondary" href="{% url 'blog:preview' article.pk %}">پیش نمایش مقاله</a>
-                              {% endif %}
-                          {% else %}
-                              {% if article.status == 'd' %}
-                                  <span class="badge badge-danger">پیش نویس شده</span>
-                              {% else %}
-                                  <span class="badge badge-warning">برگشت داده شده</span>
-                              <a target="_blank" class="badge badge-secondary" href="{% url 'blog:preview' article.pk %}">پیش نمایش مقاله</a>
-                              {% endif %}
-                          {% endif %}
-
-                          {% if user.is_superuser or article.author == user and article.status == 'd' %}
-                              <a class="badge badge-danger" href="{% url 'account:delete-article' article.pk %}">حذف</a>
-                          {% endif %}
-                      </td>
-                      <td>
-                          {{article.total_likes}}
-                      </td>
-                      <td>
-                        {{article.total_dislikes}}
-                      </td>
-                      <td>
-                        <a class="badge badge-secondary" target="_blank" href="{% url 'account:comments-article' article.pk %}">نظرات این مقاله</a>
-                      </td>
-                  </tr>
-                {% endfor %}
-            </tbody>
-          </table>
-        </div>
-        <!-- /.card-body -->
+        <p>New Orders</p>
       </div>
-      {% else %}
-            <h3>محتوایی برای نمایش وجود ندارد</h3>
-      {% endif %}
+      <div class="icon">
+        <i class="ion ion-bag"></i>
+      </div>
+      <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
     </div>
-</div>
-{% endblock %}
+  </div>

@@ -11,6 +11,7 @@ class User(AbstractUser):
     special_user = models.DateTimeField(
         default=timezone.now, verbose_name='کاربر ویژه تا')
     image = models.ImageField(upload_to="avatar",default='image/16410.jpg', verbose_name='آواتار')
+    blocked = models.BooleanField(default=False,verbose_name='بلاک شده')
 
     def is_special_user(self):
         if self.special_user > timezone.now():

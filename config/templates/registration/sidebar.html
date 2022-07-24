@@ -1,5 +1,4 @@
 {% load static %}
-{% load gravatar %}
 <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
@@ -14,11 +13,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          {% if user.image %}
             <img src="{{user.image.url}}" class="img-circle elevation-2" style="height: 50px; width: 50px;" alt="">
-          {% else %}
-            <img src="https://www.cortrucent.com/hs-fs/hubfs/images/images-for-website/male-gravatar-compressor.png?width=574&name=male-gravatar-compressor.png" class="img-circle elevation-2" alt="User Image">
-          {% endif %}
           <a href="{% url 'blog:author' user.username %}" style="padding: 4px;">
             {% if user.get_full_name %}
               {{user.get_full_name}}
@@ -60,10 +55,28 @@
                 </li>
               </ul>
             </li>
+
+            <li class="nav-item has-treeview menu-open">
+              <a href="#" class="nav-link {% if request.resolver_match.url_name == 'users' %}active{% endif %}">
+                <svg style="width: 20px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M377.7 338.8l37.15-92.87C419 235.4 411.3 224 399.1 224h-57.48C348.5 209.2 352 193 352 176c0-4.117-.8359-8.057-1.217-12.08C390.7 155.1 416 142.3 416 128c0-16.08-31.75-30.28-80.31-38.99C323.8 45.15 304.9 0 277.4 0c-10.38 0-19.62 4.5-27.38 10.5c-15.25 11.88-36.75 11.88-52 0C190.3 4.5 181.1 0 170.7 0C143.2 0 124.4 45.16 112.5 88.98C63.83 97.68 32 111.9 32 128c0 14.34 25.31 27.13 65.22 35.92C96.84 167.9 96 171.9 96 176C96 193 99.47 209.2 105.5 224H48.02C36.7 224 28.96 235.4 33.16 245.9l37.15 92.87C27.87 370.4 0 420.4 0 477.3C0 496.5 15.52 512 34.66 512H413.3C432.5 512 448 496.5 448 477.3C448 420.4 420.1 370.4 377.7 338.8zM176 479.1L128 288l64 32l16 32L176 479.1zM271.1 479.1L240 352l16-32l64-32L271.1 479.1zM320 186C320 207 302.8 224 281.6 224h-12.33c-16.46 0-30.29-10.39-35.63-24.99C232.1 194.9 228.4 192 224 192S215.9 194.9 214.4 199C209 213.6 195.2 224 178.8 224h-12.33C145.2 224 128 207 128 186V169.5C156.3 173.6 188.1 176 224 176s67.74-2.383 96-6.473V186z"/></svg>
+                <p>
+                  مدیریت کاربران
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="{% url 'account:users' %}" class="nav-link {% if request.resolver_match.url_name == 'users' %}active{% endif %}">
+                    <svg style="width: 20px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M319.9 320c57.41 0 103.1-46.56 103.1-104c0-57.44-46.54-104-103.1-104c-57.41 0-103.1 46.56-103.1 104C215.9 273.4 262.5 320 319.9 320zM369.9 352H270.1C191.6 352 128 411.7 128 485.3C128 500.1 140.7 512 156.4 512h327.2C499.3 512 512 500.1 512 485.3C512 411.7 448.4 352 369.9 352zM512 160c44.18 0 80-35.82 80-80S556.2 0 512 0c-44.18 0-80 35.82-80 80S467.8 160 512 160zM183.9 216c0-5.449 .9824-10.63 1.609-15.91C174.6 194.1 162.6 192 149.9 192H88.08C39.44 192 0 233.8 0 285.3C0 295.6 7.887 304 17.62 304h199.5C196.7 280.2 183.9 249.7 183.9 216zM128 160c44.18 0 80-35.82 80-80S172.2 0 128 0C83.82 0 48 35.82 48 80S83.82 160 128 160zM551.9 192h-61.84c-12.8 0-24.88 3.037-35.86 8.24C454.8 205.5 455.8 210.6 455.8 216c0 33.71-12.78 64.21-33.16 88h199.7C632.1 304 640 295.6 640 285.3C640 233.8 600.6 192 551.9 192z"/></svg>
+                    <p>لیست کاربران</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
           {% endif %}
           <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link {% if request.resolver_match.url_name == 'comments' %}active{% endif %}">
-              <i class="fa fa-comment"></i>
+              <i class="fa fa-comments"></i>
               <p>
                 نظرات
                 <i class="right fas fa-angle-left"></i>
@@ -72,8 +85,12 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="{% url 'account:comments' %}" class="nav-link {% if request.resolver_match.url_name == 'comments' %}active{% endif %}">
-                  <i class="fa fa-comments"></i>
-                  <p>لیست نظرات</p>
+                  <i class="fa fa-comment"></i>
+                  {% if user.is_superuser %}
+                    <p>لیست نظرات</p>
+                  {% else %}
+                    <p>نظرات من</p>
+                  {% endif %}
                 </a>
               </li>
             </ul>

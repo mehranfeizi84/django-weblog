@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator
 from django.views.generic import ListView, DetailView
 from account.models import User
@@ -12,6 +12,10 @@ class ArticleList(ListView):
     template_name = "blog/home.html"
     context_object_name = "articles"
     paginate_by = 3
+
+
+def error_404(request, exception):
+    return render(request, 'blog/404.html')
 
 
 class ArticleDetail(DetailView):

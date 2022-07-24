@@ -1,0 +1,42 @@
+{% extends 'registration/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block btitle %}{% block title %}
+   ویرایش کاربر
+{% endblock %}{% endblock %}
+
+{% block main %}
+<div class="col-md-12">
+    <div class="card card-primary">
+      <div class="card-header">
+        {% if user.is_superuser %}
+            <h3 class="card-title mb-0 float-left">ویرایش کاربر</h3>
+        {% else %}
+            <h3 class="card-title mb-0 float-left">ویرایش کاربر</h3>
+        {% endif %}
+    </div>
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data">{% csrf_token %}
+            <div class="form-row">
+                <div class="form-group col-md-6 mb-0">
+                    {{ form.username|as_crispy_field }}
+                  </div>
+                  <div class="form-group col-md-6 mb-0">
+                    {{ form.first_name|as_crispy_field }}
+                  </div>
+                  <div class="form-group col-md-6 mb-0">
+                      {{ form.last_name|as_crispy_field }}
+                  </div>
+                  <div class="form-group col-md-6 mb-0">
+                      {{ form.blocked|as_crispy_field }}
+                  </div>
+            <button class="btn btn-primary">ارسال اطالاعات</button>
+            {% if request.resolver_match.kwargs.pk %}
+                <button class="btn btn-danger">
+                    <a class="badge badge-danger" href="{% url 'account:delete-user' request.resolver_match.kwargs.pk %}">حذف</a>
+                </button>
+            {% endif %}
+        </form>
+    </div>
+</div>
+{% endblock %}

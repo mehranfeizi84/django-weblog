@@ -11,11 +11,12 @@ UserAdmin.fieldsets[2][1]['fields'] = (
                                 'special_user',
                                 'groups',
                                 'user_permissions',
-                                'image'
+                                'image',
+                                'blocked'
                             ),
 
 # show items in django panel
-UserAdmin.list_display += ('is_author', 'is_special_user', 'image')
+UserAdmin.list_display += ('is_author', 'is_special_user', 'image', 'blocked')
 
 
 admin.site.register(User, UserAdmin)

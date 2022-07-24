@@ -1,0 +1,98 @@
+{% extends 'registration/base.html' %}
+{% load comment_tags %}
+
+{% block btitle %}
+    | کاربران
+{% endblock %}
+
+{% block title %}
+    کاربران
+{% endblock %}
+
+
+{% block main %}
+<div class="row">
+    <div class="col-12">
+      {% if users %}
+        <div class="card">
+          <div class="card-body table-responsive p-0">
+            <table class="table table-hover">
+                  <span class="badge badge-primary"><p style="padding: 5px; width: 95px; height:5px; border-radius: 40px;">تعداد نظرات : {{count}}</p></span>
+              <thead>
+                <tr>
+                    <th>نام کاربری</th>
+                    <th>عکس</th>
+                  <th>نام</th>
+                  <th>نام خانوادگی</th>
+                  <th>ایمیل</th>
+                  <th>وضعیت نویسندگی</th>
+                  <th>وضعیت کاربر ویژه</th>
+                  <th>کاربر ویژه تا : </th>
+                  <th>وضعیت بلاک</th>
+                  <th>وضعیت سوپریوزری</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for user in users %}
+                  <tr>
+                      <td>
+                            {% if user.is_superuser or user.is_author %}
+                                {{user.username}}
+                            {% else %}
+                                <a href="{% url 'account:update-user' user.pk %}">{{user.username}}</a>
+                            {% endif %}
+                      </td>
+                      <td><img style="border-radius: 25px;" src="{{user.image.url}}" width="120px"></td>
+                      <td>
+                        {{user.first_name}}
+                      </td>
+                      <td>{{user.last_name}}</td>
+                      <td>{{user.email}}</td>
+                      <td>
+                        {% if user.is_author %}
+                            <i class="fa fa-check-circle" style="color: green;"></i>
+                        {% else %}
+                            <i class="fa fa-minus-circle" style="color: red;"></i>
+                        {% endif %}
+                      </td>
+                      <td>
+                        {% if user.is_special_user %}
+                            <i class="fa fa-check-circle" style="color: green;"></i>
+                        {% else %}
+                            <i class="fa fa-minus-circle" style="color: red;"></i>
+                        {% endif %}
+                      </td>
+                      {% if user.is_special_user %}
+                        <td>{{user.special_user}}</td>
+                      {% else %}
+                        <td>
+                            کاربر ویژه نیست
+                        </td>
+                      {% endif %}  
+                      <td>
+                        {% if user.blocked %}
+                            <i class="fa fa-check-circle" style="color: green;"></i>
+                        {% else %}
+                            <i class="fa fa-minus-circle" style="color: red;"></i>
+                        {% endif %}
+                      </td>
+                      <td>
+                        {% if user.is_staff %}
+                            <i class="fa fa-check-circle" style="color: green;"></i>
+                        {% else %}
+                            <i class="fa fa-minus-circle" style="color: red;"></i>
+                        {% endif %}
+                      </td>
+                  </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      {% else %}
+            <h3>محتوایی برای نمایش وجود ندارد</h3>
+      {% endif %}
+    </div>
+</div>
+{% endblock %}
