@@ -18,6 +18,10 @@ class CategoryManger(models.Manager):
         return self.filter(status=True)
 
 
+class IPAddress(models.Model):
+    ip_address = models.GenericIPAddressField(verbose_name='آدرس آی پی')
+
+
 class Category(models.Model):
     parent = models.ForeignKey('self', default=None, null=True, blank=True,
                                on_delete=models.SET_NULL, related_name='children',
@@ -65,6 +69,7 @@ class Article(models.Model):
     comments = GenericRelation(Comment)
     likes = models.ManyToManyField(User, related_name='likes')
     dislikes = models.ManyToManyField(User, related_name='dislikes')
+    views = models.ManyToManyField(IPAddress, through='ArticleHit', blank=True, related_name='views', verbose_name='بازدیدها')
 
     objects = ArticleManger()
 
@@ -103,3 +108,9 @@ class Article(models.Model):
     def thumbnail_tag(self):
         return format_html("<img height=100 width=120 style='border-radius: 7px;' src='{}'>".format(self.thumbnail.url))
     thumbnail_tag.short_description = 'عکس'
+
+
+class ArticleHit(models.Model):
+	article = models.ForeignKey(Article, on_delete=models.CASCADE)
+	ip_address = models.ForeignKey(IPAddress, on_delete=models.CASCADE)
+	created = models.DateTimeField(auto_now_add=True)

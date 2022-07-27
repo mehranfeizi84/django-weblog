@@ -18,11 +18,7 @@
         <div class="card">
           <div class="card-body table-responsive p-0">
             <table class="table table-hover">
-              {% if user.is_superuser %}
-                  <span class="badge badge-primary"><p style="padding: 5px; width: 95px; height:5px; border-radius: 40px;">تعداد نظرات : {{count}}</p></span>
-              {% else %}
-                  <span class="badge badge-primary"><p style="padding: 5px; width: 95px; height:5px; border-radius: 40px;">تعداد نظرات : {{count_author}}</p></span>
-              {% endif %}
+              <span class="badge badge-primary"><p style="padding: 5px; width: 95px; height:5px; border-radius: 40px;">تعداد نظرات : {{count}}</p></span>
               <thead>
                 <tr>
                   <th>محتوا نظر</th>

@@ -33,7 +33,7 @@
                with font-awesome or any other icon font library -->
           {% if user.is_superuser or user.is_author %}
             <li class="nav-item has-treeview menu-open">
-              <a href="#" class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+              <a href="#" class="nav-link {% if request.resolver_match.url_name == 'articles' %}active{% endif %}">
                 <i class="nav-icon fas fa-book"></i>
                 <p>
                   مقالات
@@ -42,7 +42,7 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="{% url 'account:home' %}" class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                  <a href="{% url 'account:articles' %}" class="nav-link {% if request.resolver_match.url_name == 'articles' %}active{% endif %}">
                     <i class="fa fa-list nav-icon"></i>
                     <p>لیست مقالات</p>
                   </a>
@@ -75,22 +75,28 @@
             </li>
           {% endif %}
           <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link {% if request.resolver_match.url_name == 'comments' %}active{% endif %}">
+            <a href="#" class="nav-link {% if request.resolver_match.url_name == 'allcomments' or request.resolver_match.url_name == 'mycomments' %}active{% endif %}">
               <i class="fa fa-comments"></i>
               <p>
                 نظرات
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
+            {% if user.is_superuser or user.is_author %}
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="{% url 'account:allcomments' %}" class="nav-link {% if request.resolver_match.url_name == 'allcomments' %}active{% endif %}">
+                    <i class="fa fa-comments"></i>
+                    <p>همه نظرات</p>
+                  </a>
+                </li>
+              </ul>
+            {% endif %}
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{% url 'account:comments' %}" class="nav-link {% if request.resolver_match.url_name == 'comments' %}active{% endif %}">
-                  <i class="fa fa-comment"></i>
-                  {% if user.is_superuser %}
-                    <p>لیست نظرات</p>
-                  {% else %}
-                    <p>نظرات من</p>
-                  {% endif %}
+                <a href="{% url 'account:mycomments' %}" class="nav-link {% if request.resolver_match.url_name == 'mycomments' %}active{% endif %}">
+                  <i class="fa fa-comments"></i>
+                  <p>نظرات من</p>
                 </a>
               </li>
             </ul>

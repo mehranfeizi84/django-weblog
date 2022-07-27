@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_gravatar',
     'comment',
+    'star_ratings',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -61,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'blog.middleware.SaveIPAddressMiddleware'
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -146,3 +148,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'account.User'
+STAR_RATINGS_STAR_HEIGHT  = 16

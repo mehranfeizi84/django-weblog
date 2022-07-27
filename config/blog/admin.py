@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Article, Category
+from .models import Article, Category, IPAddress
 
 # admin header title
 admin.site.site_header = "مدیریت جنگو"
@@ -77,4 +77,5 @@ class ArticleAdmin(admin.ModelAdmin):
 
 admin.site.register(Article, ArticleAdmin)
 admin.site.register(Category, CategoryAdmin)
+admin.site.register(IPAddress)
 # admin.site.disable_action('delete_selected')

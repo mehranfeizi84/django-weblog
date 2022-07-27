@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, get_object_or_404, render
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from .mixins import (
@@ -21,8 +21,8 @@ from .forms import RegisterForm
 from comment.models.comments import Comment
 
 
-def home(request):
-    return render(request, 'registration/home.html')
+class Home(AuthorsAccessMixin, TemplateView):
+    template_name = 'registration/home.html'
 
 
 class ArticlesList(AuthorsAccessMixin, ListView):
@@ -69,7 +69,7 @@ class Profile(LoginRequiredMixin, UpdateView):
     def get_form_kwargs(self):
         kwargs = super(Profile, self).get_form_kwargs()
         kwargs.update({
-            'user': self.request.user
+            'user': self.request.user,
         })
 
         return kwargs
@@ -104,33 +104,40 @@ def register(request, *args, **kwargs):
     return render(request, 'registration/register.html', context)
 
 
-class CommentList(LoginRequiredMixin, ListView):
+class AllCommentList(LoginRequiredMixin, ListView):
     template_name = 'registration/commentlist.html'
     context_object_name = "comments"
 
     def get_queryset(self):
-        # if you're superuser you can see all article in website else you just can see your articles
-        if self.request.user.is_superuser:
-            return Comment.objects.all()
-        else:
-            if self.request.user.is_superuser:
-                pass
-            else:
-                global comments
-            comments =  Comment.objects.filter(user=self.request.user)
-            return comments
+        global comments
+        comments = Comment.objects.all()
+        return comments
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # send category with context
-        if self.request.user.is_superuser:
-            count = Comment.objects.count()
-            context['count'] = count
-        else:
-            count_author = comments.count()
-            context['count_author'] = count_author
+        count = comments.count()
+        context['count'] = count
 
         return context
 
+
+class MyCommentList(LoginRequiredMixin, ListView):
+    template_name = 'registration/commentlist.html'
+    context_object_name = "comments"
+
+    def get_queryset(self):
+        global comments
+        comments =  Comment.objects.filter(user=self.request.user)
+        return comments
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # send category with context
+        count = comments.count()
+        context['count'] = count
+
+        return context
 
 class UpdateComment(FieldsMixin2, AuthorsAccessMixin, UpdateView):
     model = Comment
@@ -163,7 +170,7 @@ class CommentsArticleList(AuthorsAccessMixin, ListView):
         return context
 
 
-class UsersList(ListView):
+class UsersList(AuthorsAccessMixin, ListView):
     template_name = 'registration/users.html'
     context_object_name = "users"
 
@@ -179,12 +186,12 @@ class UsersList(ListView):
 
         return context
 
-class UpdateUser(FieldsMixin4, UpdateView):
+class UpdateUser(AuthorsAccessMixin, FieldsMixin4, UpdateView):
     model = User
     template_name = 'registration/user-create-update.html'
     success_url = reverse_lazy('account:users')
 
-class DeleteUser(DeleteView):
+class DeleteUser(AuthorsAccessMixin, DeleteView):
     model = User
     template_name = 'registration/user-delete.html'
     # after being operation successful,it redirects to home comments

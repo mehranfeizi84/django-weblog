@@ -1,0 +1,21 @@
+<div class="top_articles" style="
+                            border: 1px solid #bfbfbf;
+                            padding: 15px;
+                            border-radius: 5px;
+                            width: 300px;
+                            margin-bottom: 20px;
+                            left: 25px;
+                            position: absolute;
+                            box-shadow: -5px 5px #d5d5d5;"
+                            >
+    <h2 class="h4">
+        مقالات پر بازدید ماه
+    </h2>
+    <hr>
+    {% for a in articles %}
+        <div>
+            <a href="{% url 'blog:detail' a.slug %}">{{a.title}}</a>
+            <hr>
+        </div>
+    {% endfor %}
+</div>

@@ -1,5 +1,8 @@
 {% extends 'blog/base.html' %}
 {% load static %}
+{% load ratings %}
+{% load base_tags %}
+
 
 {% block main %}
 <header class="masthead" style="background-image: url('{% static '/blog/assets/img/home-bg.jpg' %}')">
@@ -19,6 +22,8 @@
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
             {% block header %}{% endblock %}
+            {% top_articles_month %}
+            {% top_articles_year %}
             {% for article in articles %}
                 <div class="post-preview">
                     <a href="{% url 'blog:detail' article.slug %}">
@@ -28,6 +33,9 @@
                                 <span class="badge badge-danger" style="font-size: 12px; background-color: red;">ویژه</span>
                             {% endif %}
                         </h2>
+                        <div>
+                            {% ratings article %}
+                        </div>
                         <h3 class="post-subtitle" style="font-size: 18px;">
                             {{ article.description|striptags|truncatewords:30 }}
                         </h3>
@@ -39,6 +47,7 @@
                             <h6 style="font-size: 12px;"><a href="{% url 'blog:category' category.slug %}">#{{category.title}}</a>
                             </h6>
                         {% endfor %}
+                        <span style="font-size: 14px;">بازدید ها : {{article.views.count}}</span>
                     </p>
                     <hr>
                 </div>

@@ -31,6 +31,9 @@
   <link rel="stylesheet" href="https://cdn.rtlcss.com/bootstrap/v4.2.1/css/bootstrap.min.css">
   <!-- Custom style for RTL -->
   <link rel="stylesheet" href="{% static 'registration/adminlte/dist/css/custom.css' %}">
+  <link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+  <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -42,9 +45,11 @@
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="{% url 'account:home' %}" class="nav-link">صفحه اصلی</a>
-      </li>
+      {% if user.is_superuser or user.is_author %}
+        <li class="nav-item d-none d-sm-inline-block">
+          <a href="{% url 'account:home' %}" class="nav-link">صفحه اصلی</a>
+        </li>
+      {% endif %}
       <li class="nav-item d-none d-sm-inline-block">
         <a href="{% url 'blog:home' %}" target="_blank" class="nav-link">نمایش سایت</a>
       </li>

@@ -1,4 +1,6 @@
 {% extends 'registration/base.html' %}
+{% load ratings %}
+
 {% block btitle %}
     | مقالات
 {% endblock %}
@@ -39,6 +41,8 @@
                     <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path>
                     </svg>
                   </th>
+                  <th>بازدید ها</th>
+                  <th style="width: 10px;">امتیاز</th>
                   <th>نظرات</th>
                 </tr>
               </thead>
@@ -91,6 +95,10 @@
                       </td>
                       <td>
                         {{article.total_dislikes}}
+                      </td>
+                      <td>{{article.views.count}}</td>
+                      <td style="width: 10px;">
+                        {% ratings article %}
                       </td>
                       <td>
                         <a class="badge badge-secondary" target="_blank" href="{% url 'account:comments-article' article.pk %}">نظرات این مقاله</a>

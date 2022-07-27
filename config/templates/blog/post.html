@@ -1,6 +1,9 @@
 {% extends 'blog/base.html' %}
 {% load static %}
 {% load comment_tags %}
+{% load ratings %}
+{% load base_tags %}
+
 
 {% block title %}
    | {{article.title}}
@@ -19,6 +22,16 @@
                                     <span class="badge badge-danger" style="font-size: 14px; background-color: red;">ویژه</span>
                                 {% endif %}
                             <time>{{article.jpublish}}</time>
+                            <div>
+                                {% ratings article %}
+                                <br>
+                                <p style="font-size: 12px;">
+                                    به این مقاله یک امتیاز بدهید
+                                </p>
+                            </div>
+                            <div>
+                                <p>بازدید ها : {{article.views.count}}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -28,6 +41,12 @@
         <article class="mb-4">
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
+                    {% top_articles_month2 %}
+                    <div>
+                        <br><br>
+                        <br><br>
+                    </div>
+                    {% top_articles_year2 %}
                     <div class="col-md-10 col-lg-8 col-xl-7 text-jusify" style="width: 800px;">
                         <article style="width: 800px;">
                             {% if article.is_special %}
@@ -41,7 +60,6 @@
                                 {{ article.description|safe }}
                             {% endif %}
                         </article>
-                        <hr>
                         <div>
                             {% if user.is_authenticated %}
                                 {% if liked %}

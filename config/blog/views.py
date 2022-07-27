@@ -1,17 +1,18 @@
 from django.shortcuts import get_object_or_404, render
-from django.core.paginator import Paginator
 from django.views.generic import ListView, DetailView
 from account.models import User
 from .models import Article, Category
 from account.mixins import AuthorAccessMixin2
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.db.models import Count, Q
+
 
 class ArticleList(ListView):
     queryset = Article.objects.published()
     template_name = "blog/home.html"
     context_object_name = "articles"
-    paginate_by = 3
+    paginate_by = 5
 
 
 def error_404(request, exception):
@@ -25,8 +26,15 @@ class ArticleDetail(DetailView):
     # get published articles from models
     def get_object(self):
         slug = self.kwargs.get('slug')
-        obj = get_object_or_404(Article.objects.published(), slug=slug)
-        return obj
+        article = get_object_or_404(Article.objects.published(), slug=slug)
+
+        ip_address = self.request.user.ip_address
+        if ip_address not in article.views.all():
+            article.views.add(ip_address)
+
+        return article
+
+        
     def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
             # send category with context
@@ -64,13 +72,26 @@ class CategoryList(ListView):
 
     # get active category
     def get_queryset(self):
-        global category
         slug = self.kwargs.get('slug')
+        global category
         category = get_object_or_404(Category.objects.actived(), slug=slug)
-        # get articles from that category
-        articles_category = category.articles.published()
+        if slug in ['archive-2022','archive-2021', 'archive-2020']:
+            year = 0
+            if slug == 'archive-2022':
+                year = 2022
+            if slug == 'archive-2021':
+                year = 2021
+            if slug == 'archive-2020':
+                year = 2020
 
-        return articles_category
+            articles = Article.objects.published().filter(Q(publish__year=year))
+            return articles
+
+        else:
+            # get articles from that category
+            articles_category = category.articles.published()
+
+            return articles_category
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -79,7 +100,7 @@ class CategoryList(ListView):
 
         return context
 
-    paginate_by = 2
+    paginate_by = 5
 
     
 class AuthorList(ListView):
@@ -115,6 +136,7 @@ def LikeView(request, slug):
         article.dislikes.remove(request.user)
         liked = True
     return HttpResponseRedirect(reverse('blog:detail',args=[str(slug)]))
+
 
 def DislikeView(request, slug):
     article = get_object_or_404(Article, slug=slug)
