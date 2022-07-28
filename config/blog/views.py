@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView
 from account.models import User
 from .models import Article, Category
 from account.mixins import AuthorAccessMixin2
@@ -12,7 +12,7 @@ class ArticleList(ListView):
     queryset = Article.objects.published()
     template_name = "blog/home.html"
     context_object_name = "articles"
-    paginate_by = 5
+    paginate_by = 7
 
 
 def error_404(request, exception):
@@ -149,3 +149,7 @@ def DislikeView(request, slug):
         article.likes.remove(request.user)
         disliked = True
     return HttpResponseRedirect(reverse('blog:detail',args=[str(slug)]))
+
+
+class BestArticlesView(TemplateView):
+    template_name = "blog/best.html"

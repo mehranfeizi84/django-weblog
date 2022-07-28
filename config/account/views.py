@@ -139,17 +139,18 @@ class MyCommentList(LoginRequiredMixin, ListView):
 
         return context
 
+
 class UpdateComment(FieldsMixin2, AuthorsAccessMixin, UpdateView):
     model = Comment
     template_name = 'registration/comments-create-update.html'
-    success_url = reverse_lazy('account:comments')
+    success_url = reverse_lazy('account:allcomments')
 
 
 class DeleteComment(DeleteCommentAccessMixin, DeleteView):
     model = Comment
     template_name = 'registration/comment-delete.html'
     # after being operation successful,it redirects to home comments
-    success_url = reverse_lazy('account:comments')
+    success_url = reverse_lazy('account:allcomments')
 
 
 class CommentsArticleList(AuthorsAccessMixin, ListView):
@@ -186,13 +187,19 @@ class UsersList(AuthorsAccessMixin, ListView):
 
         return context
 
+
 class UpdateUser(AuthorsAccessMixin, FieldsMixin4, UpdateView):
     model = User
     template_name = 'registration/user-create-update.html'
     success_url = reverse_lazy('account:users')
+
 
 class DeleteUser(AuthorsAccessMixin, DeleteView):
     model = User
     template_name = 'registration/user-delete.html'
     # after being operation successful,it redirects to home comments
     success_url = reverse_lazy('account:users')
+
+
+class Statistics(TemplateView):
+    template_name = 'registration/statistics.html'

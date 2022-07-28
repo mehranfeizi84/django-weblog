@@ -1,0 +1,18 @@
+<div class="top_articles" style="
+                            border: 1px solid #bfbfbf;
+                            padding: 15px;
+                            border-radius: 20px;
+                            box-shadow: -5px 5px #d5d5d5;
+                            margin: 20px;"
+                            >
+    <h2 class="h4">
+        {{title}}
+    </h2>
+    <hr>
+    {% for a in articles %}
+        <div>
+            <a style="color: #eee;" href="{% url 'blog:detail' a.slug %}">{{a.title}}</a>
+            <hr>
+        </div>
+    {% endfor %}
+</div>

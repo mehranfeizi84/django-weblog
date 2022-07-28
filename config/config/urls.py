@@ -20,7 +20,6 @@ urlpatterns = [
         "password_change/", ChangePassword.as_view(), name="password_change"
     ),
     path('comment/', include('comment.urls')),
-    path('ratings/', include('star_ratings.urls', namespace='ratings')),
 ]
 
 

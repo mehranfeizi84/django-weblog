@@ -1,5 +1,14 @@
 from django.urls import path
-from blog.views import ArticleDetail, CategoryList, ArticleList, AuthorList, ArticlePreview, LikeView, DislikeView
+from blog.views import (
+    ArticleDetail, 
+    CategoryList, 
+    ArticleList, 
+    AuthorList, 
+    ArticlePreview,
+    BestArticlesView, 
+    LikeView, 
+    DislikeView,
+    )
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -15,6 +24,7 @@ urlpatterns = [
     path('author/<username>/page/<int:page>', AuthorList.as_view(), name='author'),
     path('like/<slug>', LikeView, name='like'),
     path('dislike/<slug>', DislikeView, name='dislike'),
+    path('best', BestArticlesView.as_view(), name='thebestest')
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

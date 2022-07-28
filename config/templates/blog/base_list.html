@@ -1,6 +1,5 @@
 {% extends 'blog/base.html' %}
 {% load static %}
-{% load ratings %}
 {% load base_tags %}
 
 
@@ -22,8 +21,14 @@
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
             {% block header %}{% endblock %}
-            {% top_articles_month %}
-            {% top_articles_year %}
+            <aside style="width: 300px;
+                          left: 25px;
+                          position: absolute;"
+                          >
+                {% top_articles_month %}
+                {% top_articles_by_like_month %}
+                {% hot_articles_month %}
+            </aside>
             {% for article in articles %}
                 <div class="post-preview">
                     <a href="{% url 'blog:detail' article.slug %}">
@@ -33,9 +38,6 @@
                                 <span class="badge badge-danger" style="font-size: 12px; background-color: red;">ویژه</span>
                             {% endif %}
                         </h2>
-                        <div>
-                            {% ratings article %}
-                        </div>
                         <h3 class="post-subtitle" style="font-size: 18px;">
                             {{ article.description|striptags|truncatewords:30 }}
                         </h3>

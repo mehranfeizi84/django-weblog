@@ -67,8 +67,8 @@ class Article(models.Model):
     status = models.CharField(
         max_length=1, choices=STATUS_CHOICES, verbose_name='وضعیت')
     comments = GenericRelation(Comment)
-    likes = models.ManyToManyField(User, related_name='likes')
-    dislikes = models.ManyToManyField(User, related_name='dislikes')
+    likes = models.ManyToManyField(User, through='ArticleLike', related_name='likes')
+    dislikes = models.ManyToManyField(User, through='ArticleDislike', related_name='dislikes')
     views = models.ManyToManyField(IPAddress, through='ArticleHit', blank=True, related_name='views', verbose_name='بازدیدها')
 
     objects = ArticleManger()
@@ -113,4 +113,16 @@ class Article(models.Model):
 class ArticleHit(models.Model):
 	article = models.ForeignKey(Article, on_delete=models.CASCADE)
 	ip_address = models.ForeignKey(IPAddress, on_delete=models.CASCADE)
+	created = models.DateTimeField(auto_now_add=True)
+
+
+class ArticleLike(models.Model):
+	article = models.ForeignKey(Article, on_delete=models.CASCADE)
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	created = models.DateTimeField(auto_now_add=True)
+
+
+class ArticleDislike(models.Model):
+	article = models.ForeignKey(Article, on_delete=models.CASCADE)
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	created = models.DateTimeField(auto_now_add=True)

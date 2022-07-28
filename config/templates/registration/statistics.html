@@ -1,0 +1,14 @@
+{% extends 'registration/base.html' %}
+{% load base_tags %}
+
+
+{% block title %}
+    آمار ها
+{% endblock %}
+
+{% block main %}
+    {% all_views_today %}
+    {% all_views_month %}
+    {% all_views_year %}
+    {% all_views_all_time %}
+{% endblock %}

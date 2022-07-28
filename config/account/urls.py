@@ -15,6 +15,7 @@ from .views import (
         UsersList,
         UpdateUser,
         DeleteUser,
+        Statistics,
         )
 
 
@@ -34,4 +35,5 @@ urlpatterns = [
     path("users", UsersList.as_view(), name="users"),
     path("users/update/<int:pk>", UpdateUser.as_view(), name="update-user"),
     path("users/delete/<int:pk>", DeleteUser.as_view(), name="delete-user"),
+    path("statistics", Statistics.as_view(), name='statistics')
 ]

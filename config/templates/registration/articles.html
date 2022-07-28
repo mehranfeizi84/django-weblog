@@ -1,5 +1,4 @@
 {% extends 'registration/base.html' %}
-{% load ratings %}
 
 {% block btitle %}
     | مقالات
@@ -42,7 +41,6 @@
                     </svg>
                   </th>
                   <th>بازدید ها</th>
-                  <th style="width: 10px;">امتیاز</th>
                   <th>نظرات</th>
                 </tr>
               </thead>
@@ -97,9 +95,6 @@
                         {{article.total_dislikes}}
                       </td>
                       <td>{{article.views.count}}</td>
-                      <td style="width: 10px;">
-                        {% ratings article %}
-                      </td>
                       <td>
                         <a class="badge badge-secondary" target="_blank" href="{% url 'account:comments-article' article.pk %}">نظرات این مقاله</a>
                       </td>

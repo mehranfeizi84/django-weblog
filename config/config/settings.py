@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_gravatar',
     'comment',
-    'star_ratings',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

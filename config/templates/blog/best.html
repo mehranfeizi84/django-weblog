@@ -1,0 +1,36 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% load base_tags %}
+
+
+{% block main %}
+    <header class="masthead" style="background-image: url('{% static '/blog/assets/img/home-bg.jpg' %}')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h1>ویجی تک</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                {% hot_articles_month %}
+                {% hot_articles_anytime %}
+                {% top_articles_month %}
+                {% top_articles_anytime %}
+                {% top_articles_year %}
+                {% top_articles_by_like_month %}
+                {% top_articles_by_like_year %}
+                {% top_articles_by_like_anytime %}
+                {% top_articles_by_dislike_month %}
+                {% top_articles_by_dislike_anytime %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
