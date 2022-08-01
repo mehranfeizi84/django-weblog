@@ -12,7 +12,9 @@
                   padding-bottom: 10px;
                   padding-left: 10px;
                   margin-left: 20px;
-                  padding-right: 72px;" type="button" class="btn btn-primary" href="{% url 'account:articles' %}">مقالات</a>
+                  padding-right: 72px;" type="button" class="btn btn-primary" href="{% url 'account:articles' %}">مقالات
+                <i class="fa fa-list nav-icon"></i>
+                </a>
   <a style="width: 200px;
   padding: 10px;
   padding-top: 10px;
@@ -20,7 +22,9 @@
   padding-bottom: 10px;
   padding-left: 10px;
   margin-left: 20px;
-  padding-right: 73px;" type="button" class="btn btn-dark" href="{% url 'account:users' %}">کاربران</a>
+  padding-right: 73px;" type="button" class="btn btn-dark" href="{% url 'account:users' %}">کاربران
+  <i class="fa fa-user"></i>
+  </a>
   <a style="width: 200px;
   padding: 10px;
   padding-top: 10px;
@@ -28,7 +32,9 @@
   padding-bottom: 10px;
   padding-left: 10px;
   margin-left: 20px;
-  padding-right: 76px;" type="button" class="btn btn-success" href="{% url 'account:allcomments' %}">نظرات</a>
+  padding-right: 76px;" type="button" class="btn btn-success" href="{% url 'account:allcomments' %}">نظرات
+  <i class="fa fa-comments"></i>
+  </a>
   <a style="width: 200px;
   padding: 10px;
   padding-top: 10px;
@@ -36,5 +42,7 @@
   padding-bottom: 10px;
   padding-left: 10px;
   margin-left: 20px;
-  padding-right: 78px;" type="button" class="btn btn-info" href="{% url 'account:profile' %}">پروفایل</a>
+  padding-right: 78px;" type="button" class="btn btn-info" href="{% url 'account:profile' %}">پروفایل
+  <i class="fa fa-user"></i>
+  </a>
 {% endblock %}

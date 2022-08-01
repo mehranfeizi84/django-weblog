@@ -8,6 +8,7 @@ from blog.views import (
     BestArticlesView, 
     LikeView, 
     DislikeView,
+    SearchList,
     )
 from django.conf import settings
 from django.conf.urls.static import static
@@ -24,7 +25,9 @@ urlpatterns = [
     path('author/<username>/page/<int:page>', AuthorList.as_view(), name='author'),
     path('like/<slug>', LikeView, name='like'),
     path('dislike/<slug>', DislikeView, name='dislike'),
-    path('best', BestArticlesView.as_view(), name='thebestest')
+    path('best', BestArticlesView.as_view(), name='thebestest'),
+    path('search/', SearchList.as_view(), name='search'),
+    path('search/page/<int:page>', SearchList.as_view(), name='search'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

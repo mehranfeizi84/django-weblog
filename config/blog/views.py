@@ -153,3 +153,23 @@ def DislikeView(request, slug):
 
 class BestArticlesView(TemplateView):
     template_name = "blog/best.html"
+
+
+class SearchList(ListView):
+    template_name = "blog/search.html"
+    context_object_name = "articles"
+
+    def get_queryset(self):
+        global search
+        search = self.request.GET.get('q')
+        articles = Article.objects.filter(Q(title__icontains=search) | Q(description__icontains=search))
+
+        return articles
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['search'] = search
+
+        return context
+
+    paginate_by = 2

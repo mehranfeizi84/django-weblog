@@ -115,7 +115,7 @@ def hot_articles_month():
     last_month = datetime.today() - timedelta(days=30)
     return {
         "articles": Article.objects.published().annotate(
-            count=Count('comments', filter=Q(comments__posted__gt=last_month) and Q(comments__content_type_id=content_type_id))
+            count=Count('comments', filter=Q(comments__posted__gt=last_month) & Q(comments__content_type_id=content_type_id))
         ).order_by('-count', '-publish')[:5],
         "title": "پر بحث ترین مقالات ماه"
     }
@@ -137,7 +137,7 @@ def all_views_today():
     last_day = datetime.today() - timedelta(days=1)
     return {
         "title": "بازدید های امروز",
-        "finall_views_count":Article.objects.published().filter(
+        "finall_count":Article.objects.published().filter(
             Q(articlehit__created__gt=last_day)).count()        
     }
 
@@ -147,7 +147,8 @@ def all_views_month():
     last_month = datetime.today() - timedelta(days=30)
     return {
         "title": "بازدید های ماه",
-        "finall_views_count":Article.objects.published().filter(Q(articlehit__created__gt=last_month)).count()        
+        "finall_count":Article.objects.published().filter(
+            Q(articlehit__created__gt=last_month)).count()
     }
 
 @register.inclusion_tag("blog/partials/statistics.html")
@@ -156,15 +157,134 @@ def all_views_year():
 
     return {
         "title": "بازدید های سال",
-        "finall_views_count":Article.objects.published().filter(
-            Q(articlehit__created__gt=last_year)).count()        
+        "finall_count":Article.objects.published().filter(
+            Q(articlehit__created__gt=last_year)).count()
     }
 
 
 @register.inclusion_tag("blog/partials/statistics.html")
 def all_views_all_time():
-    all_time = datetime.today() - timedelta(days=36500)
+    today = datetime.today()
     return {
         "title": "کل بازدید ها",
-        "finall_views_count":Article.objects.published().filter(Q(articlehit__created__gt=all_time)).count()        
+        "finall_count":Article.objects.published().filter(Q(articlehit__created__lte=today)).count()
+    }
+
+
+@register.inclusion_tag("blog/partials/statistics.html")
+def all_like_today():
+    last_day = datetime.today() - timedelta(days=1)
+    return {
+        "title": "لایک های امروز",
+        "finall_count":Article.objects.published().filter(
+            Q(articlelike__created__gt=last_day)).count()        
+    }
+
+
+@register.inclusion_tag("blog/partials/statistics.html")
+def all_like_month():
+    last_month = datetime.today() - timedelta(days=30)
+    return {
+        "title": "لایک های ماه",
+        "finall_count":Article.objects.published().filter(
+            Q(articlelike__created__gt=last_month)).count()
+    }
+
+@register.inclusion_tag("blog/partials/statistics.html")
+def all_like_year():
+    last_year = datetime.today() - timedelta(days=365)
+
+    return {
+        "title": "لایک های سال",
+        "finall_count":Article.objects.published().filter(
+            Q(articlelike__created__gt=last_year)).count()
+    }
+
+
+@register.inclusion_tag("blog/partials/statistics.html")
+def all_like_all_time():
+    today = datetime.today()
+    return {
+        "title": "کل لایک ها",
+        "finall_count":Article.objects.published().filter(Q(articlelike__created__lte=today)).count()
+    }
+
+
+@register.inclusion_tag("blog/partials/statistics.html")
+def all_comment_today():
+    last_day = datetime.today() - timedelta(days=1)
+    return {
+        "title": "نظر های امروز",
+        "finall_count":Article.objects.published().filter(
+            Q(comments__posted__gt=last_day)).count()        
+    }
+
+
+@register.inclusion_tag("blog/partials/statistics.html")
+def all_comment_month():
+    last_month = datetime.today() - timedelta(days=30)
+    return {
+        "title": "نظر های ماه",
+        "finall_count":Article.objects.published().filter(
+            Q(comments__posted__gt=last_month)).count()
+    }
+
+
+@register.inclusion_tag("blog/partials/statistics.html")
+def all_comment_year():
+    last_year = datetime.today() - timedelta(days=365)
+
+    return {
+        "title": "نظر های سال",
+        "finall_count":Article.objects.published().filter(
+            Q(comments__posted__gt=last_year)).count()
+    }
+
+
+@register.inclusion_tag("blog/partials/statistics.html")
+def all_comment_all_time():
+    today = datetime.today()
+    return {
+        "title": "کل نظر ها",
+        "finall_count":Article.objects.published().filter(Q(comments__posted__lte=today)).count()
+    }
+
+
+@register.inclusion_tag("blog/partials/statistics.html")
+def all_dislike_today():
+    last_day = datetime.today() - timedelta(days=1)
+    return {
+        "title": "دیس لایک های امروز",
+        "finall_count":Article.objects.published().filter(
+            Q(articledislike__created__gt=last_day)).count()        
+    }
+
+
+@register.inclusion_tag("blog/partials/statistics.html")
+def all_dislike_month():
+    last_month = datetime.today() - timedelta(days=30)
+    return {
+        "title": "دیس لایک های ماه",
+        "finall_count":Article.objects.published().filter(
+            Q(articledislike__created__gt=last_month)).count()
+    }
+
+
+@register.inclusion_tag("blog/partials/statistics.html")
+def all_dislike_year():
+    last_year = datetime.today() - timedelta(days=365)
+
+    return {
+        "title": "دیس لایک های سال",
+        "finall_count":Article.objects.published().filter(
+            Q(articledislike__created__gt=last_year)).count()
+    }
+
+
+@register.inclusion_tag("blog/partials/statistics.html")
+def all_dislike_all_time():
+    today = datetime.today()
+    return {
+        "title": "کل دیس لایک ها",
+        "finall_count":Article.objects.published().filter(Q(articledislike__created__lte=today)).count()
     }

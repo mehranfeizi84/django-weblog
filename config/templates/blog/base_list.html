@@ -1,6 +1,7 @@
 {% extends 'blog/base.html' %}
 {% load static %}
 {% load base_tags %}
+{% load humanize %}
 
 
 {% block main %}
@@ -53,6 +54,8 @@
                     </p>
                     <hr>
                 </div>
+            {% empty %}
+                <p>متاسفانه موردی برای نمایش وجود ندارد</p>
             {% endfor %}
             <!-- Divider-->
             <hr class="my-4" />

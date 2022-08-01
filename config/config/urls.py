@@ -3,6 +3,7 @@ from django.urls import path, include
 from account.forms import CustomLogin
 from account.views import ChangePassword
 from account.views import register
+from account.views import send_request, verify
 
 
 urlpatterns = [
@@ -20,6 +21,9 @@ urlpatterns = [
         "password_change/", ChangePassword.as_view(), name="password_change"
     ),
     path('comment/', include('comment.urls')),
+    path('request/', send_request, name='request'),
+    path('verify/', verify , name='verify'),
+
 ]
 
 

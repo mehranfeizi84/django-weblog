@@ -89,7 +89,7 @@ class Article(models.Model):
 
     # for redirect to home account
     def get_absolute_url(self):
-        return reverse('account:home')
+        return reverse('account:articles')
 
     # to look better date/time publish
     def jpublish(self):

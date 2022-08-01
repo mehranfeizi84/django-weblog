@@ -17,4 +17,10 @@
             <a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'blog:thebestest' %}">ترین ها</a>
         </li>
     </ul>
+    <form class="form-inline mt-3" action="{% url 'blog:search' %}">
+        <input type="text" name="q" class="form-control" placeholder="جستجو کنید ...">
+        <button class="btn btn-success" style="padding: 8px; border-radius: 15px; margin-right: 165px;">
+            جستجو
+        </button>
+    </form>
 </div>
