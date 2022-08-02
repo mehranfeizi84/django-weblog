@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Article, Category, IPAddress
+from account.models import User
 
 # admin header title
 admin.site.site_header = "مدیریت جنگو"
@@ -66,6 +67,10 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 class ArticleAdmin(admin.ModelAdmin):
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "author":
+            kwargs["queryset"] = User.objects.filter(is_author=True)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
     list_display = ['title', 'thumbnail_tag', 'author',
                     'jpublish', 'status', 'is_special', 'category_to_str']
     list_filter = ['category', 'status']
